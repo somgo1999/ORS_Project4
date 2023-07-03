@@ -36,7 +36,7 @@ public abstract class BaseCtl extends HttpServlet {
 	public static final String OP_BACK = "Back";
 	public static final String OP_LOG_OUT = "Logout";
 	public static final String OP_RESET = "Reset";
-	public static final String OP_UPDATE = "update";
+	public static final String OP_UPDATE = "Update";
 
 	/**
 	 * Success message key constant
@@ -58,6 +58,7 @@ public abstract class BaseCtl extends HttpServlet {
 	 */
 
 	protected boolean validate(HttpServletRequest request) {
+		System.out.println("By default validate method returns true");
 		return true;
 	}
 
@@ -78,6 +79,7 @@ public abstract class BaseCtl extends HttpServlet {
 	 */
 
 	protected BaseBean populateBean(HttpServletRequest request) {
+		System.out.println("By default populateBean method returns null");
 		return null;
 	}
 
@@ -122,21 +124,22 @@ public abstract class BaseCtl extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Bctl service");
+		System.out.println("BaseCtl Service method");
 		// Load the preloaded data required to display at HTML form
 		preload(request);
+		System.out.println("BaseCtl preload");
 		String op = DataUtility.getString(request.getParameter("operation"));
-		System.out.println("Bctl servi op" + op);
+		System.out.println("BaseCtl Service Operations" + op);
 		// Check if operation is not DELETE, VIEW, CANCEL, and NULL then
 		// perform input data validation
 		if (DataValidator.isNotNull(op) && !OP_CANCEL.equalsIgnoreCase(op) && !OP_VIEW.equalsIgnoreCase(op)
 				&& !OP_DELETE.equalsIgnoreCase(op) && !OP_RESET.equalsIgnoreCase(op)) {
-			System.out.println("Bctl 5 operation");
+			System.out.println("BaseCtl 5 Operations");
 			// Check validation, If fail then send back to page with error
 			// messages
 
 			if (!validate(request)) {
-				System.out.println("Bctl validate ");
+				System.out.println("BaseCtl validate");
 				BaseBean bean = (BaseBean) populateBean(request);
 				// wapis se inserted data dikhe jo phle in put kiya tha
 				ServletUtility.setBean(bean, request);
@@ -144,7 +147,7 @@ public abstract class BaseCtl extends HttpServlet {
 				return;
 			}
 		}
-		System.out.println("B ctl Super servi");
+		System.out.println("BaseCtl Super service");
 		super.service(request, response);
 	}
 
